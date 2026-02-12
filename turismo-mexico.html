@@ -1,0 +1,1383 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Descubre México – Guía de Turismo</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Bebas+Neue&display=swap" rel="stylesheet">
+
+  <style>
+    /* =============================================
+       VARIABLES & RESET
+    ============================================= */
+    :root {
+      --verde:       #1a3c2a;
+      --verde-medio: #2d6040;
+      --verde-claro: #4e8a5f;
+      --oro:         #c9922a;
+      --oro-claro:   #e8b84b;
+      --terracota:   #c0522a;
+      --crema:       #f5ede0;
+      --crema-oscura:#eddcc5;
+      --blanco:      #fdfaf5;
+      --texto:       #1f1a14;
+      --texto-suave: #5a4e3c;
+      --sombra: 0 8px 40px rgba(26,60,42,.18);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Crimson Pro', Georgia, serif;
+      background: var(--blanco);
+      color: var(--texto);
+      overflow-x: hidden;
+    }
+    a { text-decoration: none; color: inherit; }
+    img { max-width: 100%; display: block; }
+
+    /* =============================================
+       PAGE SWITCHING
+    ============================================= */
+    .page { display: none; animation: fadeSlide .5s ease; }
+    .page.active { display: block; }
+    @keyframes fadeSlide {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* =============================================
+       HEADER / NAV
+    ============================================= */
+    header {
+      position: sticky; top: 0; z-index: 1000;
+      background: var(--verde);
+      box-shadow: 0 2px 20px rgba(0,0,0,.35);
+    }
+    .header-top {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 3rem; height: 70px;
+    }
+    .logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.9rem; letter-spacing: .12em;
+      color: var(--oro-claro);
+      display: flex; align-items: center; gap: .6rem;
+      cursor: pointer;
+    }
+    .logo span { color: var(--crema); }
+    .logo-icon { font-size: 1.4rem; }
+
+    nav {
+      background: var(--verde-medio);
+      border-top: 1px solid rgba(255,255,255,.08);
+    }
+    .nav-inner {
+      display: flex; align-items: stretch;
+      max-width: 1200px; margin: 0 auto;
+    }
+    .nav-item {
+      position: relative;
+    }
+    .nav-link {
+      display: flex; align-items: center; gap: .4rem;
+      padding: .75rem 1.4rem;
+      font-family: 'Crimson Pro', serif;
+      font-size: 1rem; font-weight: 600;
+      letter-spacing: .04em; text-transform: uppercase;
+      color: var(--crema-oscura);
+      cursor: pointer;
+      transition: background .2s, color .2s;
+      white-space: nowrap;
+    }
+    .nav-link:hover, .nav-link.active-page {
+      background: var(--verde-claro);
+      color: var(--oro-claro);
+    }
+    .nav-link .arrow { font-size: .6rem; opacity: .7; }
+
+    /* dropdown */
+    .dropdown {
+      position: absolute; top: 100%; left: 0;
+      background: var(--verde);
+      min-width: 210px;
+      border-top: 3px solid var(--oro);
+      box-shadow: var(--sombra);
+      opacity: 0; pointer-events: none;
+      transform: translateY(6px);
+      transition: opacity .22s, transform .22s;
+      z-index: 999;
+    }
+    .nav-item:hover .dropdown {
+      opacity: 1; pointer-events: all; transform: translateY(0);
+    }
+    .dropdown a {
+      display: block; padding: .7rem 1.3rem;
+      font-size: .95rem; color: var(--crema-oscura);
+      border-bottom: 1px solid rgba(255,255,255,.06);
+      transition: background .15s, color .15s;
+    }
+    .dropdown a:hover { background: var(--verde-claro); color: var(--oro-claro); }
+
+    /* =============================================
+       HERO
+    ============================================= */
+    .hero {
+      position: relative;
+      min-height: 90vh;
+      display: flex; flex-direction: column;
+      justify-content: flex-end;
+      overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute; inset: 0;
+      background:
+        linear-gradient(160deg, rgba(26,60,42,.72) 0%, rgba(192,82,42,.45) 50%, rgba(26,60,42,.85) 100%),
+        url('https://images.unsplash.com/photo-1518638150340-f706e86654de?w=1600&q=80') center/cover no-repeat;
+    }
+    .hero-bg::after {
+      content:'';
+      position: absolute; inset: 0;
+      background: repeating-linear-gradient(
+        45deg,
+        transparent, transparent 38px,
+        rgba(201,146,42,.04) 38px, rgba(201,146,42,.04) 40px
+      );
+    }
+    .hero-content {
+      position: relative;
+      padding: 4rem 5rem 5rem;
+      max-width: 800px;
+    }
+    .hero-eyebrow {
+      font-family: 'Bebas Neue', sans-serif;
+      letter-spacing: .25em; font-size: 1rem;
+      color: var(--oro-claro); margin-bottom: 1rem;
+    }
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3rem, 7vw, 6rem);
+      font-weight: 900; line-height: 1.0;
+      color: var(--blanco);
+      text-shadow: 0 3px 18px rgba(0,0,0,.4);
+      margin-bottom: 1.5rem;
+    }
+    .hero h1 em { color: var(--oro-claro); font-style: italic; }
+    .hero p {
+      font-size: 1.25rem; line-height: 1.7;
+      color: rgba(253,250,245,.88);
+      max-width: 560px; margin-bottom: 2.5rem;
+    }
+    .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .btn {
+      padding: .85rem 2.2rem;
+      border-radius: 2px; border: none; cursor: pointer;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.05rem; letter-spacing: .1em;
+      transition: transform .2s, box-shadow .2s;
+    }
+    .btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,.25); }
+    .btn-primary { background: var(--oro); color: var(--blanco); }
+    .btn-outline { background: transparent; color: var(--blanco); border: 2px solid rgba(255,255,255,.55); }
+
+    /* =============================================
+       SECTION WRAPPER
+    ============================================= */
+    .section { padding: 5rem 3rem; max-width: 1200px; margin: 0 auto; }
+    .section-sm { padding: 3rem 3rem; max-width: 1200px; margin: 0 auto; }
+
+    .section-label {
+      font-family: 'Bebas Neue', sans-serif;
+      letter-spacing: .3em; font-size: .85rem;
+      color: var(--verde-claro); margin-bottom: .5rem;
+    }
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      font-weight: 700; line-height: 1.2;
+      color: var(--verde);
+      margin-bottom: 1.2rem;
+    }
+    .section-title em { color: var(--oro); font-style: italic; }
+    .section-desc {
+      font-size: 1.15rem; color: var(--texto-suave);
+      max-width: 620px; line-height: 1.75;
+      margin-bottom: 3rem;
+    }
+    .divider {
+      width: 60px; height: 3px;
+      background: var(--oro);
+      margin: 1rem 0 2.5rem;
+    }
+
+    /* =============================================
+       CARDS GRID
+    ============================================= */
+    .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 2rem; }
+    .card {
+      background: var(--blanco);
+      border-radius: 4px;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0,0,0,.09);
+      transition: transform .25s, box-shadow .25s;
+      cursor: pointer;
+    }
+    .card:hover { transform: translateY(-6px); box-shadow: 0 12px 36px rgba(26,60,42,.18); }
+    .card-img {
+      height: 220px; overflow: hidden;
+      position: relative;
+    }
+    .card-img img { width: 100%; height: 100%; object-fit: cover; transition: transform .4s; }
+    .card:hover .card-img img { transform: scale(1.06); }
+    .card-tag {
+      position: absolute; top: 14px; left: 14px;
+      background: var(--oro); color: var(--blanco);
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: .75rem; letter-spacing: .1em;
+      padding: .25rem .65rem; border-radius: 2px;
+    }
+    .card-body { padding: 1.4rem 1.5rem 1.8rem; }
+    .card-body h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.35rem; color: var(--verde);
+      margin-bottom: .5rem;
+    }
+    .card-body p { font-size: 1rem; color: var(--texto-suave); line-height: 1.65; margin-bottom: 1rem; }
+    .card-meta { display: flex; align-items: center; gap: .5rem; font-size: .88rem; color: var(--verde-claro); font-weight: 600; }
+
+    /* =============================================
+       BANNER STRIP
+    ============================================= */
+    .banner-strip {
+      background: var(--verde);
+      color: var(--crema);
+      padding: 4rem 3rem;
+      text-align: center;
+      position: relative; overflow: hidden;
+    }
+    .banner-strip::before {
+      content:'';
+      position: absolute; inset: 0;
+      background: repeating-linear-gradient(
+        -45deg, transparent, transparent 28px,
+        rgba(201,146,42,.06) 28px, rgba(201,146,42,.06) 30px
+      );
+    }
+    .banner-strip h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      font-weight: 700; position: relative;
+      margin-bottom: .8rem;
+    }
+    .banner-strip h2 em { color: var(--oro-claro); font-style: italic; }
+    .banner-strip p { font-size: 1.1rem; opacity: .85; position: relative; max-width: 550px; margin: 0 auto 2rem; }
+
+    /* =============================================
+       TWO-COL LAYOUT
+    ============================================= */
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+    .two-col.reverse { direction: rtl; }
+    .two-col.reverse > * { direction: ltr; }
+    .col-img {
+      border-radius: 4px; overflow: hidden;
+      box-shadow: var(--sombra);
+      position: relative;
+    }
+    .col-img img { width: 100%; height: 380px; object-fit: cover; }
+    .col-img::before {
+      content: '';
+      position: absolute; top: -10px; left: -10px; right: 10px; bottom: 10px;
+      border: 3px solid var(--oro); border-radius: 4px;
+      z-index: -1;
+    }
+    .col-text h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.2rem; font-weight: 700;
+      color: var(--verde); margin-bottom: 1.2rem;
+    }
+    .col-text h2 em { color: var(--oro); font-style: italic; }
+    .col-text p { font-size: 1.1rem; color: var(--texto-suave); line-height: 1.75; margin-bottom: 1rem; }
+    .col-text ul { list-style: none; margin: 1rem 0; }
+    .col-text ul li {
+      padding: .4rem 0 .4rem 1.5rem;
+      position: relative; font-size: 1.05rem; color: var(--texto-suave);
+    }
+    .col-text ul li::before {
+      content: '✦'; position: absolute; left: 0;
+      color: var(--oro); font-size: .7rem; top: .6rem;
+    }
+
+    /* =============================================
+       STATS BAR
+    ============================================= */
+    .stats-bar {
+      background: var(--crema); padding: 2.5rem 3rem;
+      display: flex; justify-content: center; gap: 4rem; flex-wrap: wrap;
+    }
+    .stat { text-align: center; }
+    .stat-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 3rem; color: var(--verde); letter-spacing: .05em;
+      line-height: 1;
+    }
+    .stat-label { font-size: .9rem; color: var(--texto-suave); letter-spacing: .05em; text-transform: uppercase; margin-top: .3rem; }
+
+    /* =============================================
+       HIGHLIGHT BOXES
+    ============================================= */
+    .highlights { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1.5rem; }
+    .highlight-box {
+      border-left: 4px solid var(--oro);
+      background: var(--crema);
+      padding: 1.5rem 1.8rem;
+      border-radius: 0 4px 4px 0;
+    }
+    .highlight-box h4 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem; color: var(--verde); margin-bottom: .6rem;
+    }
+    .highlight-box p { font-size: 1rem; color: var(--texto-suave); line-height: 1.65; }
+
+    /* =============================================
+       ACCORDION
+    ============================================= */
+    .accordion { max-width: 820px; }
+    .acc-item { border-bottom: 1px solid var(--crema-oscura); }
+    .acc-head {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.1rem 0; cursor: pointer;
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem; color: var(--verde);
+    }
+    .acc-head:hover { color: var(--oro); }
+    .acc-head .icon { font-size: 1.4rem; transition: transform .25s; color: var(--oro); }
+    .acc-item.open .acc-head .icon { transform: rotate(45deg); }
+    .acc-body { max-height: 0; overflow: hidden; transition: max-height .35s ease; }
+    .acc-item.open .acc-body { max-height: 600px; }
+    .acc-body p { padding: 0 0 1.3rem; font-size: 1.05rem; color: var(--texto-suave); line-height: 1.75; }
+
+    /* =============================================
+       FULL-WIDTH IMAGE DIVIDER
+    ============================================= */
+    .img-divider {
+      height: 400px; position: relative; overflow: hidden;
+    }
+    .img-divider img { width: 100%; height: 100%; object-fit: cover; }
+    .img-divider-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to right, rgba(26,60,42,.7) 0%, transparent 60%);
+      display: flex; align-items: center; padding: 3rem 5rem;
+    }
+    .img-divider-text h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 5vw, 4rem);
+      color: var(--blanco); font-weight: 900; line-height: 1.1;
+      margin-bottom: 1rem;
+    }
+    .img-divider-text h2 em { color: var(--oro-claro); font-style: italic; }
+    .img-divider-text p { color: rgba(253,250,245,.85); font-size: 1.15rem; max-width: 480px; }
+
+    /* =============================================
+       REGION TABS (Destinos page)
+    ============================================= */
+    .region-tabs { display: flex; gap: .5rem; flex-wrap: wrap; margin-bottom: 2.5rem; }
+    .rtab {
+      padding: .6rem 1.4rem;
+      border: 2px solid var(--verde-claro);
+      border-radius: 2px;
+      font-family: 'Bebas Neue', sans-serif;
+      letter-spacing: .08em; font-size: .95rem;
+      color: var(--verde-claro); cursor: pointer;
+      transition: background .2s, color .2s;
+    }
+    .rtab:hover, .rtab.active { background: var(--verde-claro); color: var(--blanco); }
+
+    /* =============================================
+       ROUTE CARD
+    ============================================= */
+    .route-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 2rem; }
+    .route-card {
+      display: flex; gap: 1.2rem; align-items: flex-start;
+      background: var(--blanco); padding: 1.5rem;
+      border-radius: 4px; box-shadow: 0 3px 16px rgba(0,0,0,.08);
+      transition: transform .25s;
+    }
+    .route-card:hover { transform: translateY(-4px); }
+    .route-icon {
+      width: 52px; height: 52px; flex-shrink: 0;
+      background: var(--verde); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem;
+    }
+    .route-info h4 { font-family: 'Playfair Display', serif; font-size: 1.15rem; color: var(--verde); margin-bottom: .3rem; }
+    .route-info p { font-size: .98rem; color: var(--texto-suave); line-height: 1.6; }
+
+    /* =============================================
+       TIPS TABLE (Planea page)
+    ============================================= */
+    .tips-table { width: 100%; border-collapse: collapse; margin-top: 1.5rem; }
+    .tips-table th {
+      background: var(--verde); color: var(--oro-claro);
+      font-family: 'Bebas Neue', sans-serif;
+      letter-spacing: .1em; padding: .9rem 1.2rem; text-align: left;
+    }
+    .tips-table td { padding: .85rem 1.2rem; border-bottom: 1px solid var(--crema-oscura); font-size: 1rem; color: var(--texto-suave); }
+    .tips-table tr:nth-child(even) td { background: var(--crema); }
+    .tips-table tr:hover td { background: rgba(78,138,95,.08); }
+
+    /* =============================================
+       CONTACT FORM
+    ============================================= */
+    .contact-grid { display: grid; grid-template-columns: 1fr 1.4fr; gap: 4rem; }
+    .form-group { margin-bottom: 1.3rem; }
+    .form-group label { display: block; font-size: .9rem; font-weight: 600; color: var(--verde); letter-spacing: .04em; margin-bottom: .4rem; text-transform: uppercase; }
+    .form-group input, .form-group textarea, .form-group select {
+      width: 100%;
+      padding: .8rem 1rem;
+      border: 2px solid var(--crema-oscura);
+      border-radius: 2px;
+      font-family: 'Crimson Pro', serif;
+      font-size: 1rem; color: var(--texto);
+      background: var(--blanco);
+      transition: border-color .2s;
+    }
+    .form-group input:focus, .form-group textarea:focus, .form-group select:focus { outline: none; border-color: var(--verde-claro); }
+    .form-group textarea { resize: vertical; min-height: 130px; }
+    .contact-info h3 { font-family: 'Playfair Display', serif; font-size: 1.6rem; color: var(--verde); margin-bottom: 1.2rem; }
+    .contact-item { display: flex; gap: 1rem; margin-bottom: 1.2rem; }
+    .contact-item .ci-icon { font-size: 1.5rem; }
+    .contact-item p { font-size: 1rem; color: var(--texto-suave); }
+    .contact-item strong { color: var(--verde); }
+
+    /* =============================================
+       FOOTER
+    ============================================= */
+    footer {
+      background: var(--verde);
+      color: var(--crema-oscura);
+      padding: 3.5rem 3rem 1.5rem;
+    }
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 2rem; max-width: 1200px; margin: 0 auto 3rem; }
+    .footer-col h4 { font-family: 'Bebas Neue', sans-serif; letter-spacing: .12em; color: var(--oro-claro); font-size: 1rem; margin-bottom: 1rem; }
+    .footer-col p { font-size: .95rem; line-height: 1.7; opacity: .8; }
+    .footer-col ul { list-style: none; }
+    .footer-col ul li { margin-bottom: .5rem; }
+    .footer-col ul li a { font-size: .92rem; opacity: .78; transition: opacity .15s; cursor: pointer; }
+    .footer-col ul li a:hover { opacity: 1; color: var(--oro-claro); }
+    .footer-bottom {
+      max-width: 1200px; margin: 0 auto;
+      border-top: 1px solid rgba(255,255,255,.1);
+      padding-top: 1.3rem;
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: .5rem;
+      font-size: .85rem; opacity: .65;
+    }
+    .footer-logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; color: var(--oro-claro); letter-spacing: .1em; }
+
+    /* =============================================
+       PAGE-SPECIFIC: PAGE HEADERS
+    ============================================= */
+    .page-header {
+      padding: 5rem 3rem 3rem;
+      background: var(--verde);
+      position: relative; overflow: hidden;
+    }
+    .page-header::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: repeating-linear-gradient(
+        60deg, transparent, transparent 35px,
+        rgba(201,146,42,.05) 35px, rgba(201,146,42,.05) 37px
+      );
+    }
+    .page-header-inner { max-width: 1200px; margin: 0 auto; position: relative; }
+    .page-header .section-label { color: var(--oro); }
+    .page-header .section-title { color: var(--blanco); }
+    .page-header .section-desc { color: rgba(245,237,224,.78); }
+
+    /* =============================================
+       RESPONSIVE
+    ============================================= */
+    @media (max-width: 900px) {
+      .two-col, .contact-grid { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+      .header-top { padding: 0 1.5rem; }
+      .hero-content { padding: 3rem 1.8rem 3.5rem; }
+      .img-divider-overlay { padding: 2rem; }
+    }
+    @media (max-width: 600px) {
+      .section { padding: 3rem 1.5rem; }
+      .stats-bar { gap: 2rem; }
+      .footer-grid { grid-template-columns: 1fr; }
+    }
+
+    /* =============================================
+       UTILITY
+    ============================================= */
+    .mt1 { margin-top: 1rem; } .mt2 { margin-top: 2rem; } .mt3 { margin-top: 3rem; }
+    .mb2 { margin-bottom: 2rem; }
+    .text-center { text-align: center; }
+    .tag-verde { background: var(--verde-claro); color: var(--blanco); padding: .2rem .65rem; border-radius: 2px; font-size: .8rem; font-weight: 600; }
+    .tag-oro { background: var(--oro); color: var(--blanco); padding: .2rem .65rem; border-radius: 2px; font-size: .8rem; font-weight: 600; }
+
+    /* =============================================
+       NOTIFICATION
+    ============================================= */
+    .notif {
+      position: fixed; bottom: 2rem; right: 2rem;
+      background: var(--verde); color: var(--crema);
+      padding: 1rem 1.6rem; border-radius: 4px;
+      box-shadow: 0 6px 30px rgba(0,0,0,.25);
+      border-left: 4px solid var(--oro);
+      transform: translateY(120px); opacity: 0;
+      transition: transform .35s ease, opacity .35s ease;
+      z-index: 9999; font-size: 1rem; max-width: 300px;
+    }
+    .notif.show { transform: translateY(0); opacity: 1; }
+  </style>
+</head>
+<body>
+
+<!-- ================================================
+     HEADER
+================================================ -->
+<header>
+  <div class="header-top">
+    <div class="logo" onclick="showPage('inicio')">
+      <span class="logo-icon">🌵</span>
+      Descubre<span>México</span>
+    </div>
+    <div style="display:flex;gap:1rem;align-items:center;">
+      <span style="color:rgba(245,237,224,.6);font-size:.9rem;">Tu guía de viaje definitiva</span>
+    </div>
+  </div>
+
+  <nav>
+    <div class="nav-inner">
+      <!-- INICIO -->
+      <div class="nav-item">
+        <div class="nav-link active-page" id="nav-inicio" onclick="showPage('inicio')">🏠 Inicio</div>
+      </div>
+
+      <!-- DESTINOS -->
+      <div class="nav-item">
+        <div class="nav-link" id="nav-destinos" onclick="showPage('destinos')">
+          🗺️ Destinos ▾
+        </div>
+        <div class="dropdown">
+          <a onclick="showPage('destinos');scrollToId('norte')">Norte de México</a>
+          <a onclick="showPage('destinos');scrollToId('centro')">Centro Histórico</a>
+          <a onclick="showPage('destinos');scrollToId('sur')">Sur y Sureste</a>
+          <a onclick="showPage('destinos');scrollToId('playas')">Playas y Costas</a>
+        </div>
+      </div>
+
+      <!-- CULTURA -->
+      <div class="nav-item">
+        <div class="nav-link" id="nav-cultura" onclick="showPage('cultura')">
+          🎭 Cultura y Tradiciones ▾
+        </div>
+        <div class="dropdown">
+          <a onclick="showPage('cultura');scrollToId('prehispanica')">Civilizaciones Prehispánicas</a>
+          <a onclick="showPage('cultura');scrollToId('fiestas')">Fiestas y Festivales</a>
+          <a onclick="showPage('cultura');scrollToId('artesanias')">Artesanías</a>
+          <a onclick="showPage('cultura');scrollToId('gastronomia-cult')">Gastronomía</a>
+        </div>
+      </div>
+
+      <!-- NATURALEZA -->
+      <div class="nav-item">
+        <div class="nav-link" id="nav-naturaleza" onclick="showPage('naturaleza')">
+          🌿 Naturaleza ▾
+        </div>
+        <div class="dropdown">
+          <a onclick="showPage('naturaleza')">Selvas y Bosques</a>
+          <a onclick="showPage('naturaleza')">Reservas y Parques</a>
+          <a onclick="showPage('naturaleza')">Aventura al Aire Libre</a>
+        </div>
+      </div>
+
+      <!-- PLANEA TU VIAJE -->
+      <div class="nav-item">
+        <div class="nav-link" id="nav-planea" onclick="showPage('planea')">
+          ✈️ Planea tu Viaje
+        </div>
+      </div>
+
+      <!-- CONTACTO -->
+      <div class="nav-item">
+        <div class="nav-link" id="nav-contacto" onclick="showPage('contacto')">
+          📩 Contacto
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<!-- ================================================
+     PAGE: INICIO
+================================================ -->
+<div class="page active" id="page-inicio">
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-content">
+      <div class="hero-eyebrow">✦ Bienvenido a México ✦</div>
+      <h1>Vive la <em>magia</em><br>de México</h1>
+      <p>Descubre destinos únicos, culturas milenarias, playas de ensueño y la calidez inigualable de su gente. México te espera con los brazos abiertos.</p>
+      <div class="hero-btns">
+        <button class="btn btn-primary" onclick="showPage('destinos')">Explorar Destinos</button>
+        <button class="btn btn-outline" onclick="showPage('planea')">Planea tu Viaje</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats -->
+  <div class="stats-bar">
+    <div class="stat"><div class="stat-num">31</div><div class="stat-label">Estados + CDMX</div></div>
+    <div class="stat"><div class="stat-num">35</div><div class="stat-label">Sitios UNESCO</div></div>
+    <div class="stat"><div class="stat-num">11,000</div><div class="stat-label">Km de costa</div></div>
+    <div class="stat"><div class="stat-num">9°</div><div class="stat-label">Lugar mundial en turismo</div></div>
+  </div>
+
+  <!-- Por qué visitar México -->
+  <div class="section">
+    <div class="section-label">¿Por qué México?</div>
+    <h2 class="section-title">Un destino, <em>mil experiencias</em></h2>
+    <div class="divider"></div>
+    <p class="section-desc">México es el único país del mundo que combina megabiodiversidad, civilizaciones antiguas, costas en dos océanos y una gastronomía reconocida por la UNESCO como Patrimonio Inmaterial de la Humanidad.</p>
+
+    <div class="cards-grid">
+      <div class="card" onclick="showPage('destinos')">
+        <div class="card-img">
+          <img src="https://images.unsplash.com/photo-1518105779142-d975f22f1b0a?w=600&q=80" alt="Chichen Itza">
+          <div class="card-tag">Historia</div>
+        </div>
+        <div class="card-body">
+          <h3>Zonas Arqueológicas</h3>
+          <p>Visita Teotihuacán, Chichén Itzá, Palenque y más de 200 sitios prehispánicos que cuentan la historia de civilizaciones únicas en el mundo.</p>
+          <div class="card-meta">🏛️ +200 sitios arqueológicos</div>
+        </div>
+      </div>
+
+      <div class="card" onclick="showPage('naturaleza')">
+        <div class="card-img">
+          <img src="https://images.unsplash.com/photo-1552074284-5e88ef1aef18?w=600&q=80" alt="Playa México">
+          <div class="card-tag">Naturaleza</div>
+        </div>
+        <div class="card-body">
+          <h3>Playas y Naturaleza</h3>
+          <p>Del Caribe turquesa del sur al Pacífico salvaje del norte. Cenotes, manglares, arrecifes de coral y selvas tropicales te esperan.</p>
+          <div class="card-meta">🌊 Dos litorales oceánicos</div>
+        </div>
+      </div>
+
+      <div class="card" onclick="showPage('cultura')">
+        <div class="card-img">
+          <img src="https://images.unsplash.com/photo-1547558840-4e13e28bb0e5?w=600&q=80" alt="Cultura México">
+          <div class="card-tag">Cultura</div>
+        </div>
+        <div class="card-body">
+          <h3>Cultura y Tradiciones</h3>
+          <p>Desde el Día de Muertos hasta los mariachis, la danza folclórica y el arte moderno. La cultura mexicana es vibrante, profunda y universal.</p>
+          <div class="card-meta">🎭 UNESCO Patrimonio Inmaterial</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Destinos Destacados -->
+  <div class="banner-strip">
+    <h2>Destinos <em>imperdibles</em></h2>
+    <p>Desde las pirámides de Teotihuacán hasta los arrecifes de Cozumel, México tiene algo único para cada viajero.</p>
+    <button class="btn btn-primary" onclick="showPage('destinos')">Ver todos los destinos</button>
+  </div>
+
+  <!-- Dos columnas: CDMX -->
+  <div class="section">
+    <div class="two-col">
+      <div class="col-img">
+        <img src="https://images.unsplash.com/photo-1611655979070-72a95a7f5c11?w=700&q=80" alt="Ciudad de México">
+      </div>
+      <div class="col-text">
+        <div class="section-label">Destino Estrella</div>
+        <h2>Ciudad de <em>México</em><br>la capital de todo</h2>
+        <div class="divider"></div>
+        <p>Una de las ciudades más grandes y fascinantes del mundo. La CDMX combina siglos de historia en su centro histórico con una escena cultural, gastronómica y artística de clase mundial.</p>
+        <ul>
+          <li>Museos de talla internacional (Museo Nacional de Antropología, Bellas Artes)</li>
+          <li>Gastronomía reconocida mundialmente</li>
+          <li>Zona arqueológica de Tlatelolco y Tenochtitlán</li>
+          <li>Vida nocturna vibrante y mercados históricos</li>
+        </ul>
+        <button class="btn btn-primary mt2" onclick="showPage('destinos')">Explorar CDMX</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Testimonios / cards rápidos -->
+  <div class="section">
+    <div class="section-label">Experiencias</div>
+    <h2 class="section-title">¿Qué hacer en <em>México</em>?</h2>
+    <div class="divider"></div>
+    <div class="highlights">
+      <div class="highlight-box">
+        <h4>🏄 Deportes de Aventura</h4>
+        <p>Surf en Puerto Escondido, rappel en el Sumidero, buceo en Cozumel y rafting en Veracruz.</p>
+      </div>
+      <div class="highlight-box">
+        <h4>🍽️ Gastronomía</h4>
+        <p>Tacos, mole, chiles en nogada, tlayudas y una cocina regional infinitamente variada y deliciosa.</p>
+      </div>
+      <div class="highlight-box">
+        <h4>🎨 Arte y Museos</h4>
+        <p>Obras de Diego Rivera, Frida Kahlo, Rufino Tamayo y una escena de arte contemporáneo muy activa.</p>
+      </div>
+      <div class="highlight-box">
+        <h4>🌿 Ecoturismo</h4>
+        <p>Observación de ballenas, mariposas monarca, tortugas marinas y visitas a reservas naturales únicas.</p>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /page-inicio -->
+
+
+<!-- ================================================
+     PAGE: DESTINOS
+================================================ -->
+<div class="page" id="page-destinos">
+
+  <div class="page-header">
+    <div class="page-header-inner">
+      <div class="section-label">Guía de Viaje</div>
+      <h2 class="section-title">Destinos de <em>México</em></h2>
+      <p class="section-desc">Explora las regiones más increíbles de México, desde los desiertos del norte hasta las selvas del sureste.</p>
+    </div>
+  </div>
+
+  <!-- Norte -->
+  <div class="section" id="norte">
+    <div class="section-label">Región Norte</div>
+    <h2 class="section-title">El Norte: <em>tierra de contrastes</em></h2>
+    <div class="divider"></div>
+    <p class="section-desc">Desiertos, cañones espectaculares, playas del Pacífico y ciudades fronterizas con identidad única.</p>
+
+    <div class="cards-grid">
+      <div class="card">
+        <div class="card-img">
+          <img src="https://images.unsplash.com/photo-1545126758-f59d4f0ba01e?w=600&q=80" alt="Cañón del Cobre">
+          <div class="card-tag">Chihuahua</div>
+        </div>
+        <div class="card-body">
+          <h3>Cañón del Cobre</h3>
+          <p>Un sistema de cañones más grande y profundo que el Grand Canyon. El tren Chepe ofrece uno de los viajes en ferrocarril más espectaculares del mundo.</p>
+          <div class="card-meta">🚂 Ferrocarril Chihuahua al Pacífico</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-img">
+          <img src="https://images.unsplash.com/photo-1580791285069-8e1e6bbcabd3?w=600&q=80" alt="Baja California">
+          <div class="card-tag">Baja California</div>
+        </div>
+        <div class="card-body">
+          <h3>Baja California</h3>
+          <p>Una península única entre el Pacífico y el Mar de Cortés. Avistamiento de ballenas grises, vinos de clase mundial y playas vírgenes.</p>
+          <div class="card-meta">🐋 Migración de ballenas (Ene-Abr)</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-img">
+          <img src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=600&q=80" alt="Monterrey">
+          <div class="card-tag">Nuevo León</div>
+        </div>
+        <div class="card-body">
+          <h3>Monterrey y Huasteca</h3>
+          <p>La ciudad industrial del norte con la Huasteca Potosina al sur: cascadas turquesas, pozas naturales y selva subtropical de impresión.</p>
+          <div class="card-meta">💧 Cascadas de Tamul</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="img-divider">
+    <img src="https://images.unsplash.com/photo-1518638150340-f706e86654de?w=1600&q=80" alt="México centro">
+    <div class="img-divider-overlay">
+      <div class="img-divider-text">
+        <h2>El corazón<br>de <em>México</em></h2>
+        <p>La región centro reúne la mayor concentración de historia, gastronomía y cultura del país.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Centro -->
+  <div class="section" id="centro">
+    <div class="section-label">Región Centro</div>
+    <h2 class="section-title">Centro Histórico: <em>legado vivo</em></h2>
+    <div class="divider"></div>
+    <div class="cards-grid">
+      <div class="card">
+        <div class="card-img">
+          <img src="https://images.unsplash.com/photo-1568014688715-4e00de1fc8d3?w=600&q=80" alt="Teotihuacan">
+          <div class="card-tag">CDMX / Estado de México</div>
+        </div>
+        <div class="card-body">
+          <h3>Teotihuacán</h3>
+          <p>La Ciudad de los Dioses. Las pirámides del Sol y de la Luna dominan una de las ciudades más grandes del mundo antiguo, a solo 50 km de la capital.</p>
+          <div class="card-meta">🌅 Visita al amanecer recomendada</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-img">
+          <img src="https://images.unsplash.com/photo-1547558840-4e13e28bb0e5?w=600&q=80" alt="Guanajuato">
+          <div class="card-tag">Guanajuato</div>
+        </div>
+        <div class="card-body">
+          <h3>Guanajuato</h3>
+          <p>Ciudad patrimonio de la humanidad, famosa por sus callejones, colores vibrantes y el Festival Internacional Cervantino, uno de los eventos culturales más importantes de América.</p>
+          <div class="card-meta">🎭 Festival Cervantino (Oct)</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-img">
+          <img src="https://images.unsplash.com/photo-1585503418537-88331351ad99?w=600&q=80" alt="Oaxaca">
+          <div class="card-tag">Oaxaca</div>
+        </div>
+        <div class="card-body">
+          <h3>Oaxaca de Juárez</h3>
+          <p>Capital gastronómica de México. Monte Albán, mezcal artesanal, tejidos zapotecos y la guelaguetza, una fiesta que celebra la diversidad cultural del estado.</p>
+          <div class="card-meta">🍶 Ruta del Mezcal</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sur -->
+  <div class="section" id="sur">
+    <div class="section-label">Región Sur y Sureste</div>
+    <h2 class="section-title">Sur: <em>maravillas mayas</em></h2>
+    <div class="divider"></div>
+    <div class="cards-grid">
+      <div class="card">
+        <div class="card-img">
+          <img src="https://images.unsplash.com/photo-1518105779142-d975f22f1b0a?w=600&q=80" alt="Chichen Itza">
+          <div class="card-tag">Yucatán</div>
+        </div>
+        <div class="card-body">
+          <h3>Chichén Itzá</h3>
+          <p>Maravilla del Mundo Moderno. El Templo de Kukulcán es uno de los edificios más fotografiados del planeta. La Península de Yucatán guarda decenas de sitios mayas igualmente impresionantes.</p>
+          <div class="card-meta">🏛️ Patrimonio UNESCO</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-img">
+          <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&q=80" alt="Palenque">
+          <div class="card-tag">Chiapas</div>
+        </div>
+        <div class="card-body">
+          <h3>Palenque y Chiapas</h3>
+          <p>La ciudad maya de Palenque emerge de la selva chiapaneca. San Cristóbal de las Casas, el Cañón del Sumidero y las cascadas de Agua Azul completan un estado extraordinario.</p>
+          <div class="card-meta">🌿 Selva lacandona</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-img">
+          <img src="https://images.unsplash.com/photo-1530789253388-582c481c54b0?w=600&q=80" alt="Tulum">
+          <div class="card-tag">Quintana Roo</div>
+        </div>
+        <div class="card-body">
+          <h3>Tulum y Riviera Maya</h3>
+          <p>Ruinas mayas sobre el Caribe turquesa, cenotes cristalinos, arrecifes de coral de Cozumel y los famosos clubes de playa. El Caribe mexicano es simplemente incomparable.</p>
+          <div class="card-meta">🤿 Buceo en cenotes</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Playas -->
+  <div class="section" id="playas">
+    <div class="section-label">Litorales</div>
+    <h2 class="section-title">Playas: <em>el paraíso te llama</em></h2>
+    <div class="divider"></div>
+    <div class="route-list">
+      <div class="route-card"><div class="route-icon">🌅</div><div class="route-info"><h4>Cancún y el Caribe</h4><p>Aguas turquesas, complejos hoteleros de lujo y la mejor infraestructura turística de México.</p></div></div>
+      <div class="route-card"><div class="route-icon">🌊</div><div class="route-info"><h4>Puerto Vallarta</h4><p>El Pacífico mexicano en su máxima expresión. Bahía de Banderas y la zona arqueológica de pie de la sierra.</p></div></div>
+      <div class="route-card"><div class="route-icon">🏄</div><div class="route-info"><h4>Puerto Escondido</h4><p>El "Pipeline mexicano". Olas de fama mundial para surfistas de todo el planeta.</p></div></div>
+      <div class="route-card"><div class="route-icon">🐢</div><div class="route-info"><h4>Mazunte y Zipolite</h4><p>Playa nudista, desove de tortugas y ecoturismo responsable en la costa oaxaqueña.</p></div></div>
+      <div class="route-card"><div class="route-icon">🦀</div><div class="route-info"><h4>Los Cabos</h4><p>Donde el desierto se encuentra con el mar. Lujo, pesca deportiva y bodas de ensueño.</p></div></div>
+      <div class="route-card"><div class="route-icon">🐬</div><div class="route-info"><h4>Holbox</h4><p>Sin autos, sin ruido. Arena blanca, flamencos y tiburones ballena de junio a septiembre.</p></div></div>
+    </div>
+  </div>
+
+</div><!-- /page-destinos -->
+
+
+<!-- ================================================
+     PAGE: CULTURA Y TRADICIONES
+================================================ -->
+<div class="page" id="page-cultura">
+
+  <div class="page-header">
+    <div class="page-header-inner">
+      <div class="section-label">Identidad y Herencia</div>
+      <h2 class="section-title">Cultura y <em>Tradiciones</em></h2>
+      <p class="section-desc">México es una nación pluricultural con más de 68 lenguas indígenas y una historia que abarca miles de años de civilización continua.</p>
+    </div>
+  </div>
+
+  <!-- Civilizaciones -->
+  <div class="section" id="prehispanica">
+    <div class="section-label">Historia Milenaria</div>
+    <h2 class="section-title">Civilizaciones <em>Prehispánicas</em></h2>
+    <div class="divider"></div>
+
+    <div class="two-col">
+      <div class="col-text">
+        <p>México es cuna de algunas de las civilizaciones más avanzadas de la historia humana. Olmecas, mayas, aztecas, zapotecas, totonacas y muchas más dejaron un legado arquitectónico, astronómico, matemático y artístico que sigue asombrando al mundo.</p>
+        <p style="margin-top:1rem;">La arquitectura prehispánica no solo era funcional: sus pirámides y templos eran calendarios monumentales, observatorios astronómicos y centros ceremoniales donde la humanidad intentaba entender el cosmos.</p>
+        <ul>
+          <li><strong>Mayas:</strong> sistema calendárico, escritura jeroglífica y astronomía de precisión excepcional</li>
+          <li><strong>Aztecas (mexicas):</strong> Tenochtitlán, la capital más grande del mundo en el siglo XV</li>
+          <li><strong>Olmecas:</strong> la "madre de las civilizaciones" mesoamericanas</li>
+          <li><strong>Zapotecas:</strong> Monte Albán, primera ciudad planificada de América</li>
+        </ul>
+      </div>
+      <div class="col-img">
+        <img src="https://images.unsplash.com/photo-1568014688715-4e00de1fc8d3?w=700&q=80" alt="Pirámide Mexico">
+      </div>
+    </div>
+  </div>
+
+  <!-- Fiestas -->
+  <div class="banner-strip" id="fiestas">
+    <h2>🎊 Festivales y <em>Celebraciones</em></h2>
+    <p>México celebra la vida con una intensidad única. Sus festivales son declarados Patrimonio de la Humanidad y atraen a millones de visitantes cada año.</p>
+  </div>
+
+  <div class="section">
+    <div class="cards-grid">
+      <div class="card">
+        <div class="card-img">
+          <img src="https://images.unsplash.com/photo-1509442285842-3e87bfcede4b?w=600&q=80" alt="Día de Muertos">
+          <div class="card-tag">Noviembre</div>
+        </div>
+        <div class="card-body">
+          <h3>Día de Muertos</h3>
+          <p>La celebración más emotiva de México. Altares de flores de cempasúchil, calaveras de azúcar y el reencuentro simbólico con los seres queridos. Declarado Patrimonio Inmaterial de la UNESCO.</p>
+          <div class="card-meta">🌼 1 y 2 de noviembre</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-img">
+          <img src="https://images.unsplash.com/photo-1513151233558-d860c5398176?w=600&q=80" alt="Guelaguetza">
+          <div class="card-tag">Julio</div>
+        </div>
+        <div class="card-body">
+          <h3>La Guelaguetza</h3>
+          <p>El festival de danza indígena más importante de México, celebrado en Oaxaca. Representantes de las 8 regiones del estado presentan sus danzas, trajes y músicas tradicionales.</p>
+          <div class="card-meta">💃 Oaxaca, cada julio</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-img">
+          <img src="https://images.unsplash.com/photo-1579783901586-d88db74b4fe4?w=600&q=80" alt="Mariachi">
+          <div class="card-tag">Todo el año</div>
+        </div>
+        <div class="card-body">
+          <h3>Mariachi</h3>
+          <p>Símbolo musical de México en el mundo. La música de mariachi fue declarada Patrimonio Inmaterial de la Humanidad. La Plaza Garibaldi en CDMX es su cuartel general.</p>
+          <div class="card-meta">🎺 Patrimonio UNESCO 2011</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Artesanías -->
+  <div class="section" id="artesanias">
+    <div class="section-label">Arte Popular</div>
+    <h2 class="section-title">Artesanías: <em>manos que hablan</em></h2>
+    <div class="divider"></div>
+
+    <div class="highlights">
+      <div class="highlight-box">
+        <h4>🏺 Talavera Poblana</h4>
+        <p>Cerámica única de Puebla y Tlaxcala, con técnicas heredadas de España y de la tradición alfarera indígena. Cada pieza es pintada a mano.</p>
+      </div>
+      <div class="highlight-box">
+        <h4>🧵 Textiles Oaxaqueños</h4>
+        <p>Huipiles, rebozos y tapetes tejidos en telar de cintura o pedal. Los diseños geométricos zapotecas, mixtecos y mixes son inconfundibles.</p>
+      </div>
+      <div class="highlight-box">
+        <h4>🌺 Bordados Otomíes</h4>
+        <p>Coloridos bordados de Tenango del Valle y San Pablito, con figuras de animales fantásticos y escenas de la vida cotidiana.</p>
+      </div>
+      <div class="highlight-box">
+        <h4>🐓 Alebrijes</h4>
+        <p>Figuras de madera o papel maché pintadas con intrincados patrones de colores. Originales de Oaxaca y la Ciudad de México.</p>
+      </div>
+      <div class="highlight-box">
+        <h4>💍 Joyería Plata Taxco</h4>
+        <p>Taxco, Guerrero, es la capital mundial de la plata. Sus plateros crean piezas de extraordinaria calidad y originalidad.</p>
+      </div>
+      <div class="highlight-box">
+        <h4>🎭 Máscaras de Guerrero</h4>
+        <p>Las máscaras de madera policromada se usan en danzas rituales. Cada región tiene sus propios diseños y simbologías.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Gastronomía -->
+  <div class="section" id="gastronomia-cult">
+    <div class="section-label">Patrimonio Gastronómico</div>
+    <h2 class="section-title">La gastronomía <em>mexicana</em></h2>
+    <div class="divider"></div>
+
+    <div class="two-col reverse">
+      <div class="col-img">
+        <img src="https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=700&q=80" alt="Gastronomia Mexicana">
+      </div>
+      <div class="col-text">
+        <p>La cocina mexicana fue reconocida en 2010 como Patrimonio Cultural Inmaterial de la Humanidad por la UNESCO, siendo la primera gastronomía del mundo en recibir esta distinción.</p>
+        <p style="margin-top:1rem;">Sus ingredientes base —maíz, frijol, chile, cacao, vainilla y jitomate— han alimentado a la humanidad y transformado cocinas de todo el mundo. La diversidad regional es asombrosa: más de 60 variedades de chile, cientos de recetas de mole y una tradición culinaria de más de 7,000 años.</p>
+        <ul>
+          <li>Mole poblano y negro oaxaqueño: salsas complejas con decenas de ingredientes</li>
+          <li>Tamales: envueltos en hoja de maíz o plátano, miles de variantes regionales</li>
+          <li>Chiles en nogada: símbolo de la independencia, con los colores de la bandera</li>
+          <li>Mezcal y tequila: bebidas artesanales reconocidas en todo el mundo</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- FAQ -->
+  <div class="section">
+    <div class="section-label">Preguntas frecuentes</div>
+    <h2 class="section-title">Cultura: <em>preguntas y respuestas</em></h2>
+    <div class="divider"></div>
+    <div class="accordion">
+      <div class="acc-item">
+        <div class="acc-head" onclick="toggleAcc(this)">¿Cuántas lenguas indígenas se hablan en México? <span class="icon">+</span></div>
+        <div class="acc-body"><p>México reconoce 68 agrupaciones lingüísticas con 364 variantes, lo que lo convierte en uno de los países con mayor diversidad lingüística del mundo. Las más habladas son el náhuatl, el maya yucateco, el zapoteco y el mixteco.</p></div>
+      </div>
+      <div class="acc-item">
+        <div class="acc-head" onclick="toggleAcc(this)">¿Cuántos sitios del Patrimonio Mundial tiene México? <span class="icon">+</span></div>
+        <div class="acc-body"><p>México cuenta con 35 bienes inscritos en la Lista del Patrimonio Mundial de la UNESCO: 27 culturales, 6 naturales y 2 mixtos. Entre los más visitados están Teotihuacán, Chichén Itzá, el Centro Histórico de la Ciudad de México y la Reserva de la Biósfera de la Mariposa Monarca.</p></div>
+      </div>
+      <div class="acc-item">
+        <div class="acc-head" onclick="toggleAcc(this)">¿Cuál es el mejor mes para visitar México? <span class="icon">+</span></div>
+        <div class="acc-body"><p>Depende de la región. En general, los meses de noviembre a abril son ideales: cielos despejados, temperatura agradable y coincidencia con festividades importantes como el Día de Muertos (noviembre) y la Semana Santa. El verano es temporada de lluvias pero también cuando florecen los festivales de julio.</p></div>
+      </div>
+      <div class="acc-item">
+        <div class="acc-head" onclick="toggleAcc(this)">¿Es México un destino seguro para los turistas? <span class="icon">+</span></div>
+        <div class="acc-body"><p>La gran mayoría de los destinos turísticos de México son seguros. Los principales polos como la Ciudad de México, Riviera Maya, Puerto Vallarta, Oaxaca, Los Cabos y Guanajuato reciben millones de visitantes internacionales sin incidentes. Como en cualquier destino del mundo, se recomienda informarse, planificar y seguir recomendaciones locales.</p></div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /page-cultura -->
+
+
+<!-- ================================================
+     PAGE: NATURALEZA
+================================================ -->
+<div class="page" id="page-naturaleza">
+
+  <div class="page-header">
+    <div class="page-header-inner">
+      <div class="section-label">Biodiversidad & Aventura</div>
+      <h2 class="section-title">Naturaleza <em>Extraordinaria</em></h2>
+      <p class="section-desc">México es el cuarto país con mayor biodiversidad en el mundo. Selvas, desiertos, volcanes, arrecifes y cenotes te esperan.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="two-col">
+      <div class="col-text">
+        <div class="section-label">Megabiodiversidad</div>
+        <h2>México: <em>el 5to país</em><br>más biodiverso</h2>
+        <div class="divider"></div>
+        <p>Con apenas el 1.4% de la superficie terrestre del planeta, México alberga el 10% de todas las especies conocidas. Esta riqueza natural convierte al país en uno de los destinos de ecoturismo más importantes del mundo.</p>
+        <ul>
+          <li>Más de 23,000 especies de plantas vasculares</li>
+          <li>Primer lugar mundial en reptiles (804 especies)</li>
+          <li>Segundo lugar en mamíferos (530 especies)</li>
+          <li>16 regiones naturales terrestres distintas</li>
+        </ul>
+      </div>
+      <div class="col-img">
+        <img src="https://images.unsplash.com/photo-1596700875613-98f35c01b5d7?w=700&q=80" alt="Naturaleza Mexico">
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">Ecosistemas únicos</div>
+    <h2 class="section-title">Ecosistemas <em>increíbles</em></h2>
+    <div class="divider"></div>
+    <div class="route-list">
+      <div class="route-card"><div class="route-icon">🦋</div><div class="route-info"><h4>Reserva de la Mariposa Monarca</h4><p>Patrimonio UNESCO. Cada año, millones de mariposas cubren los oyameles de Michoacán en un espectáculo sin igual. Nov-Feb.</p></div></div>
+      <div class="route-card"><div class="route-icon">🐋</div><div class="route-info"><h4>Laguna San Ignacio (BCS)</h4><p>Una de las últimas lagunas donde las ballenas grises se reproducen en libertad. Las ballenas interactúan con los visitantes en pangas.</p></div></div>
+      <div class="route-card"><div class="route-icon">🌊</div><div class="route-info"><h4>Arrecife de Cozumel</h4><p>Segundo arrecife de coral más grande del mundo. Paraíso del buceo y snorkel con visibilidad de hasta 30 metros.</p></div></div>
+      <div class="route-card"><div class="route-icon">💧</div><div class="route-info"><h4>Cenotes de Yucatán</h4><p>Cavernas inundadas conectadas por ríos subterráneos. El sistema de cuevas de Sac Actun es el más largo del mundo.</p></div></div>
+      <div class="route-card"><div class="route-icon">🌋</div><div class="route-info"><h4>Popocatépetl e Iztaccíhuatl</h4><p>Los dos volcanes vigilan el Valle de México. El Iza es uno de los más accesibles para montañistas de América.</p></div></div>
+      <div class="route-card"><div class="route-icon">🦜</div><div class="route-info"><h4>Selva Lacandona</h4><p>Una de las últimas selvas tropicales húmedas de Norteamérica, hogar de jaguares, tapires y cientos de aves tropicales.</p></div></div>
+    </div>
+  </div>
+
+  <div class="banner-strip">
+    <h2>🏕️ Aventuras en <em>la naturaleza</em></h2>
+    <p>Desde el rafting en el Río Actopan hasta el surf en Puerto Escondido. México tiene adrenalina para todos los niveles.</p>
+    <button class="btn btn-primary" onclick="showPage('planea')">Planea tu aventura</button>
+  </div>
+
+</div><!-- /page-naturaleza -->
+
+
+<!-- ================================================
+     PAGE: PLANEA TU VIAJE
+================================================ -->
+<div class="page" id="page-planea">
+
+  <div class="page-header">
+    <div class="page-header-inner">
+      <div class="section-label">Información Práctica</div>
+      <h2 class="section-title">Planea tu <em>Viaje</em></h2>
+      <p class="section-desc">Todo lo que necesitas saber antes de viajar a México: consejos, costos, temporadas y mucho más.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">Guía práctica</div>
+    <h2 class="section-title">Lo que debes <em>saber</em></h2>
+    <div class="divider"></div>
+
+    <table class="tips-table">
+      <thead>
+        <tr>
+          <th>Tema</th>
+          <th>Información clave</th>
+          <th>Consejo del viajero</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Divisa</strong></td><td>Peso Mexicano (MXN). 1 USD ≈ $17–18 MXN</td><td>Cambiar en casas de cambio, no en aeropuertos</td></tr>
+        <tr><td><strong>Idioma</strong></td><td>Español. En zonas turísticas hay atención en inglés</td><td>Aprender unas frases en español es muy valorado</td></tr>
+        <tr><td><strong>Mejor temporada</strong></td><td>Nov–Abr para el centro y norte; Ene–Abr para costas</td><td>Julio–Ago tiene festivales importantes</td></tr>
+        <tr><td><strong>Transporte</strong></td><td>ADO (autobús), Aeromexico/Volaris (aéreo), Uber en CDMX</td><td>Los autobuses de primera clase son cómodos y baratos</td></tr>
+        <tr><td><strong>Alojamiento</strong></td><td>Desde $300 MXN/noche (hostel) a $15,000+ (hotel boutique)</td><td>Reservar con antelación en Semana Santa y Puentes</td></tr>
+        <tr><td><strong>Gastronomía</strong></td><td>Taquerías desde $20 MXN. Restaurante de nivel $200–600 MXN</td><td>Comer en mercados locales: la mejor experiencia</td></tr>
+        <tr><td><strong>Seguridad</strong></td><td>Los destinos turísticos son en general seguros</td><td>Revisar recomendaciones del SECTUR antes de viajar</td></tr>
+        <tr><td><strong>Clima</strong></td><td>Muy variado: desde árido hasta tropical</td><td>Llevar bloqueador solar y ropa ligera + chamarra</td></tr>
+        <tr><td><strong>Documentos</strong></td><td>FMM para turistas, pasaporte vigente</td><td>Guardar copias digitales de todos los documentos</td></tr>
+        <tr><td><strong>Propina</strong></td><td>10–15% en restaurantes es costumbre habitual</td><td>En playas y hoteles también es esperada</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Rutas sugeridas -->
+  <div class="section">
+    <div class="section-label">Itinerarios</div>
+    <h2 class="section-title">Rutas <em>sugeridas</em></h2>
+    <div class="divider"></div>
+    <div class="highlights">
+      <div class="highlight-box">
+        <h4>🗓️ 7 días – Clásico Maya</h4>
+        <p>CDMX → Cancún → Chichén Itzá → Valladolid → Tulum → Cozumel. Playas, arqueología y cenotes.</p>
+      </div>
+      <div class="highlight-box">
+        <h4>🗓️ 10 días – Corazón colonial</h4>
+        <p>CDMX → Puebla → Oaxaca → Monte Albán → Mitla. Arquitectura, gastronomía y artesanías.</p>
+      </div>
+      <div class="highlight-box">
+        <h4>🗓️ 14 días – Ruta completa</h4>
+        <p>CDMX → Teotihuacán → Guanajuato → Guadalajara → Puerto Vallarta → Oaxaca → Chiapas → Yucatán.</p>
+      </div>
+      <div class="highlight-box">
+        <h4>🗓️ 5 días – Aventura norte</h4>
+        <p>Monterrey → Cañón del Cobre (tren Chepe) → Los Mochis → Mazatlán. Naturaleza y cultura norteña.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Apps y recursos -->
+  <div class="section">
+    <div class="section-label">Recursos digitales</div>
+    <h2 class="section-title">Herramientas para <em>tu viaje</em></h2>
+    <div class="divider"></div>
+    <div class="route-list">
+      <div class="route-card"><div class="route-icon">📱</div><div class="route-info"><h4>INAH – Patrimonio</h4><p>Sitio web y app del Instituto Nacional de Antropología e Historia. Guía oficial de zonas arqueológicas y museos.</p></div></div>
+      <div class="route-card"><div class="route-icon">🚌</div><div class="route-info"><h4>ADO en línea</h4><p>Compra boletos de autobús con anticipación para los trayectos más populares y asegura tu lugar.</p></div></div>
+      <div class="route-card"><div class="route-icon">✈️</div><div class="route-info"><h4>SECTUR</h4><p>Secretaría de Turismo. Información oficial sobre destinos, festividades y avisos para viajeros.</p></div></div>
+      <div class="route-card"><div class="route-icon">🗺️</div><div class="route-info"><h4>Google Maps</h4><p>Funciona muy bien en todo el país. Descarga mapas sin conexión antes de llegar a zonas remotas.</p></div></div>
+    </div>
+  </div>
+
+</div><!-- /page-planea -->
+
+
+<!-- ================================================
+     PAGE: CONTACTO
+================================================ -->
+<div class="page" id="page-contacto">
+
+  <div class="page-header">
+    <div class="page-header-inner">
+      <div class="section-label">Comunicación</div>
+      <h2 class="section-title">Contáctanos</h2>
+      <p class="section-desc">¿Tienes preguntas sobre tu próximo viaje a México? Estamos aquí para ayudarte a planear la experiencia perfecta.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="contact-grid">
+      <div>
+        <div class="section-label">Formulario</div>
+        <h2 class="section-title">Escríbenos</h2>
+        <div class="divider"></div>
+
+        <div class="form-group">
+          <label>Nombre completo</label>
+          <input type="text" placeholder="Tu nombre">
+        </div>
+        <div class="form-group">
+          <label>Correo electrónico</label>
+          <input type="email" placeholder="correo@ejemplo.com">
+        </div>
+        <div class="form-group">
+          <label>Destino de interés</label>
+          <select>
+            <option value="">Selecciona un destino…</option>
+            <option>Ciudad de México</option>
+            <option>Riviera Maya / Cancún</option>
+            <option>Oaxaca</option>
+            <option>Chiapas</option>
+            <option>Los Cabos</option>
+            <option>Guanajuato</option>
+            <option>Puerto Vallarta</option>
+            <option>Yucatán / Mérida</option>
+            <option>Otro destino</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Mensaje</label>
+          <textarea placeholder="Cuéntanos sobre tu viaje soñado…"></textarea>
+        </div>
+        <button class="btn btn-primary" onclick="sendForm()">Enviar mensaje</button>
+      </div>
+
+      <div class="contact-info">
+        <div class="section-label">Información</div>
+        <h3>¿Cómo podemos<br>ayudarte?</h3>
+        <div class="divider"></div>
+        <div class="contact-item">
+          <div class="ci-icon">📍</div>
+          <p><strong>Oficina central</strong><br>Paseo de la Reforma 200, Col. Juárez<br>Ciudad de México, CDMX 06600</p>
+        </div>
+        <div class="contact-item">
+          <div class="ci-icon">📞</div>
+          <p><strong>Teléfono</strong><br>+52 (55) 1234-5678<br>Lunes a viernes, 9am – 6pm</p>
+        </div>
+        <div class="contact-item">
+          <div class="ci-icon">✉️</div>
+          <p><strong>Email</strong><br>hola@descubremex.com.mx</p>
+        </div>
+        <div class="contact-item">
+          <div class="ci-icon">🌐</div>
+          <p><strong>Redes sociales</strong><br>@DescubreMexico en todas las plataformas</p>
+        </div>
+
+        <div style="background:var(--crema);padding:1.5rem;border-radius:4px;margin-top:2rem;border-left:4px solid var(--oro);">
+          <strong style="color:var(--verde);">¿Necesitas inspiración?</strong>
+          <p style="font-size:1rem;color:var(--texto-suave);margin-top:.5rem;">Explora nuestros destinos, rutas sugeridas y guías prácticas. Cada rincón de México tiene una historia que contar.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /page-contacto -->
+
+
+<!-- ================================================
+     FOOTER (siempre visible)
+================================================ -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-col">
+      <div class="footer-logo">🌵 DescubreMéxico</div>
+      <p style="margin-top:.8rem;">Tu guía de turismo definitiva para descubrir la belleza, historia y diversidad de México. Desde los desiertos del norte hasta las selvas del sureste.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Destinos</h4>
+      <ul>
+        <li><a onclick="showPage('destinos')">Norte de México</a></li>
+        <li><a onclick="showPage('destinos');scrollToId('centro')">Centro histórico</a></li>
+        <li><a onclick="showPage('destinos');scrollToId('sur')">Sur y Sureste</a></li>
+        <li><a onclick="showPage('destinos');scrollToId('playas')">Playas</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Explorar</h4>
+      <ul>
+        <li><a onclick="showPage('cultura')">Cultura y Tradiciones</a></li>
+        <li><a onclick="showPage('naturaleza')">Naturaleza</a></li>
+        <li><a onclick="showPage('planea')">Planea tu viaje</a></li>
+        <li><a onclick="showPage('contacto')">Contacto</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Información</h4>
+      <ul>
+        <li><a>Política de privacidad</a></li>
+        <li><a>Términos de uso</a></li>
+        <li><a>Créditos de imágenes</a></li>
+        <li><a>SECTUR México</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 DescubreMéxico · Guía Turística · Todos los derechos reservados</span>
+    <span>Hecho con ❤️ para los amantes de México</span>
+  </div>
+</footer>
+
+<!-- Notificación -->
+<div class="notif" id="notif">✅ ¡Mensaje enviado con éxito! Te contactaremos pronto.</div>
+
+<!-- ================================================
+     JAVASCRIPT
+================================================ -->
+<script>
+  function showPage(pageId) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById('page-' + pageId).classList.add('active');
+
+    document.querySelectorAll('.nav-link').forEach(n => n.classList.remove('active-page'));
+    const navEl = document.getElementById('nav-' + pageId);
+    if (navEl) navEl.classList.add('active-page');
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function scrollToId(id) {
+    setTimeout(() => {
+      const el = document.getElementById(id);
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 300);
+  }
+
+  function toggleAcc(head) {
+    const item = head.parentElement;
+    const wasOpen = item.classList.contains('open');
+    document.querySelectorAll('.acc-item').forEach(i => i.classList.remove('open'));
+    if (!wasOpen) item.classList.add('open');
+  }
+
+  function sendForm() {
+    const notif = document.getElementById('notif');
+    notif.classList.add('show');
+    setTimeout(() => notif.classList.remove('show'), 3500);
+  }
+</script>
+
+</body>
+</html>
